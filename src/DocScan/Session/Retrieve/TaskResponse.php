@@ -81,6 +81,9 @@ class TaskResponse
                 case Constants::ID_DOCUMENT_TEXT_DATA_CHECK:
                     $parsedGeneratedChecks[] = new GeneratedTextDataCheckResponse($generatedCheck);
                     break;
+                case Constants::SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK:
+                    $parsedGeneratedChecks[] = new GeneratedSupplementaryDocumentTextDataCheckResponse($generatedCheck);
+                    break;
                 default:
                     $parsedGeneratedChecks[] = new GeneratedCheckResponse($generatedCheck);
                     break;
@@ -164,6 +167,14 @@ class TaskResponse
     public function getGeneratedTextDataChecks(): array
     {
         return $this->filterGeneratedChecksByType(GeneratedTextDataCheckResponse::class);
+    }
+
+    /**
+     * @return GeneratedSupplementaryDocumentTextDataCheckResponse[]
+     */
+    public function getGeneratedSupplementaryDocumentTextDataChecks(): array
+    {
+        return $this->filterGeneratedChecksByType(GeneratedSupplementaryDocumentTextDataCheckResponse::class);
     }
 
     /**

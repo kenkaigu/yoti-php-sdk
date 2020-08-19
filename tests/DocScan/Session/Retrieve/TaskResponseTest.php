@@ -23,6 +23,7 @@ class TaskResponseTest extends TestCase
     private const SOME_LAST_UPDATED = '2019-03-24T03:55:12Z';
     private const SOME_UNKNOWN_TYPE = 'someUnknownType';
     private const ID_DOCUMENT_TEXT_DATA_CHECK = 'ID_DOCUMENT_TEXT_DATA_CHECK';
+    private const SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK = 'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK';
 
     /**
      * @var TextExtractionTaskResponse
@@ -41,6 +42,10 @@ class TaskResponseTest extends TestCase
                 [
                     'id' => self::SOME_ID,
                     'type' => self::ID_DOCUMENT_TEXT_DATA_CHECK,
+                ],
+                [
+                    'id' => self::SOME_OTHER_ID,
+                    'type' => self::SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK,
                 ],
                 [
                     'id' => self::SOME_OTHER_ID,
@@ -74,7 +79,7 @@ class TaskResponseTest extends TestCase
         $this->assertEquals(self::SOME_STATE, $this->taskResponse->getState());
         $this->assertEquals(DateTime::stringToDateTime(self::SOME_CREATED), $this->taskResponse->getCreated());
         $this->assertEquals(DateTime::stringToDateTime(self::SOME_LAST_UPDATED), $this->taskResponse->getLastUpdated());
-        $this->assertCount(2, $this->taskResponse->getGeneratedChecks());
+        $this->assertCount(3, $this->taskResponse->getGeneratedChecks());
         $this->assertContainsOnlyInstancesOf(GeneratedCheckResponse::class, $this->taskResponse->getGeneratedChecks());
         $this->assertCount(2, $this->taskResponse->getGeneratedMedia());
     }
@@ -106,7 +111,7 @@ class TaskResponseTest extends TestCase
      */
     public function shouldReturnGeneratedCheckWithUnknownType()
     {
-        $generatedCheck = $this->taskResponse->getGeneratedChecks()[1];
+        $generatedCheck = $this->taskResponse->getGeneratedChecks()[2];
 
         $this->assertInstanceOf(GeneratedCheckResponse::class, $generatedCheck);
         $this->assertEquals(self::SOME_OTHER_ID, $generatedCheck->getId());
@@ -116,12 +121,14 @@ class TaskResponseTest extends TestCase
     /**
      * @test
      * @covers ::getGeneratedTextDataChecks
+     * @covers ::getGeneratedSupplementaryDocumentTextDataChecks
      * @covers ::filterGeneratedChecksByType
      */
     public function shouldFilterGeneratedTextDataChecks(): void
     {
-        $this->assertCount(2, $this->taskResponse->getGeneratedChecks());
+        $this->assertCount(3, $this->taskResponse->getGeneratedChecks());
         $this->assertCount(1, $this->taskResponse->getGeneratedTextDataChecks());
+        $this->assertCount(1, $this->taskResponse->getGeneratedSupplementaryDocumentTextDataChecks());
     }
 
     /**

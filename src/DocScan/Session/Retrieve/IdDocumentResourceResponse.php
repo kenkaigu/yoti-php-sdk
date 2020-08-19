@@ -2,90 +2,23 @@
 
 namespace Yoti\DocScan\Session\Retrieve;
 
-class IdDocumentResourceResponse extends ResourceResponse
+class IdDocumentResourceResponse extends DocumentResourceResponse
 {
-
-    /**
-     * @var string|null
-     */
-    private $documentType;
-
-    /**
-     * @var string|null
-     */
-    private $issuingCountry;
-
-    /**
-     * @var PageResponse[]
-     */
-    private $pages = [];
-
-    /**
-     * @var DocumentFieldsResponse|null
-     */
-    private $documentFields;
-
     /**
      * @var DocumentIdPhotoResponse|null
      */
     private $documentIdPhoto;
 
     /**
-     * DocumentResourceResponse constructor.
-     * @param array<string, mixed> $idDocument
+     * @param array<string, mixed> $document
      */
-    public function __construct(array $idDocument)
+    public function __construct(array $document)
     {
-        parent::__construct($idDocument);
+        parent::__construct($document);
 
-        $this->documentType = $idDocument['document_type'] ?? null;
-        $this->issuingCountry = $idDocument['issuing_country'] ?? null;
-
-        if (isset($idDocument['pages'])) {
-            foreach ($idDocument['pages'] as $page) {
-                $this->pages[] = new PageResponse($page);
-            }
-        }
-
-        $this->documentFields = isset($idDocument['document_fields'])
-            ? new DocumentFieldsResponse($idDocument['document_fields'])
+        $this->documentIdPhoto = isset($document['document_id_photo'])
+            ? new DocumentIdPhotoResponse($document['document_id_photo'])
             : null;
-
-        $this->documentIdPhoto = isset($idDocument['document_id_photo'])
-            ? new DocumentIdPhotoResponse($idDocument['document_id_photo'])
-            : null;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDocumentType(): ?string
-    {
-        return $this->documentType;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getIssuingCountry(): ?string
-    {
-        return $this->issuingCountry;
-    }
-
-    /**
-     * @return PageResponse[]
-     */
-    public function getPages(): array
-    {
-        return $this->pages;
-    }
-
-    /**
-     * @return DocumentFieldsResponse|null
-     */
-    public function getDocumentFields(): ?DocumentFieldsResponse
-    {
-        return $this->documentFields;
     }
 
     /**

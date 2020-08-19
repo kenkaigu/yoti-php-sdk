@@ -56,6 +56,14 @@ class ResourceResponse
     }
 
     /**
+     * @return SupplementaryDocumentTextExtractionTaskResponse[]
+     */
+    public function getSupplementaryDocumentTextExtractionTasks(): array
+    {
+        return $this->filterTasksByType(SupplementaryDocumentTextExtractionTaskResponse::class);
+    }
+
+    /**
      * @param string $class
      * @return mixed[]
      */
@@ -80,6 +88,8 @@ class ResourceResponse
         switch ($task['type'] ?? null) {
             case Constants::ID_DOCUMENT_TEXT_DATA_EXTRACTION:
                 return new TextExtractionTaskResponse($task);
+            case Constants::SUPPLEMENTARY_DOCUMENT_TEXT_DATA_EXTRACTION:
+                return new SupplementaryDocumentTextExtractionTaskResponse($task);
             default:
                 return new TaskResponse($task);
         }

@@ -15,6 +15,7 @@ use Yoti\Test\TestCase;
 class ResourceResponseTest extends TestCase
 {
     private const ID_DOCUMENT_TEXT_DATA_EXTRACTION = 'ID_DOCUMENT_TEXT_DATA_EXTRACTION';
+    private const SUPPLEMENTARY_DOCUMENT_TEXT_DATA_EXTRACTION = 'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_EXTRACTION';
     private const SOME_UNKNOWN_TASK = 'someUnknownTask';
     private const SOME_ID = 'someId';
 
@@ -62,6 +63,8 @@ class ResourceResponseTest extends TestCase
     /**
      * @test
      * @covers ::getTextExtractionTasks
+     * @covers ::getSupplementaryDocumentTextExtractionTasks
+     * @covers ::createTaskFromArray
      * @covers ::filterTasksByType
      */
     public function shouldFilterTextExtractionTasks(): void
@@ -69,14 +72,16 @@ class ResourceResponseTest extends TestCase
         $input = [
             'tasks' => [
                 ['type' => self::ID_DOCUMENT_TEXT_DATA_EXTRACTION],
+                ['type' => self::SUPPLEMENTARY_DOCUMENT_TEXT_DATA_EXTRACTION],
                 ['type' => self::SOME_UNKNOWN_TASK],
             ],
         ];
 
         $result = new ResourceResponse($input);
 
-        $this->assertCount(2, $result->getTasks());
+        $this->assertCount(3, $result->getTasks());
         $this->assertCount(1, $result->getTextExtractionTasks());
+        $this->assertCount(1, $result->getSupplementaryDocumentTextExtractionTasks());
     }
 
     /**

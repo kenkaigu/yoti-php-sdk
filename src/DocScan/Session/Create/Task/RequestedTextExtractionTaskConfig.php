@@ -4,16 +4,8 @@ declare(strict_types=1);
 
 namespace Yoti\DocScan\Session\Create\Task;
 
-use Yoti\Util\Json;
-
-class RequestedTextExtractionTaskConfig implements RequestedTaskConfigInterface
+class RequestedTextExtractionTaskConfig extends BaseTextExtractionTaskConfig
 {
-
-    /**
-     * @var string
-     */
-    private $manualCheck;
-
     /**
      * @var string|null
      */
@@ -25,7 +17,7 @@ class RequestedTextExtractionTaskConfig implements RequestedTaskConfigInterface
      */
     public function __construct(string $manualCheck, ?string $chipData = null)
     {
-        $this->manualCheck = $manualCheck;
+        parent::__construct($manualCheck);
         $this->chipData = $chipData;
     }
 
@@ -34,18 +26,13 @@ class RequestedTextExtractionTaskConfig implements RequestedTaskConfigInterface
      */
     public function jsonSerialize(): array
     {
-        return Json::withoutNullValues([
-            'manual_check' => $this->getManualCheck(),
-            'chip_data' => $this->getChipData(),
-        ]);
-    }
+        $jsonData = parent::jsonSerialize();
 
-    /**
-     * @return string
-     */
-    public function getManualCheck(): string
-    {
-        return $this->manualCheck;
+        if ($this->getChipData() !== null) {
+            $jsonData['chip_data'] = $this->getChipData();
+        }
+
+        return $jsonData;
     }
 
     /**

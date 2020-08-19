@@ -8,7 +8,6 @@ use Yoti\DocScan\Constants;
 
 class GetSessionResult
 {
-
     /**
      * @var string|null
      */
@@ -156,6 +155,14 @@ class GetSessionResult
     }
 
     /**
+     * @return SupplementaryDocumentTextDataCheckResponse[]
+     */
+    public function getSupplementaryDocumentTextDataChecks(): array
+    {
+        return $this->filterCheckByType(SupplementaryDocumentTextDataCheckResponse::class);
+    }
+
+    /**
      * @return LivenessCheckResponse[]
      */
     public function getLivenessChecks(): array
@@ -179,6 +186,8 @@ class GetSessionResult
                 return new FaceMatchCheckResponse($check);
             case Constants::ID_DOCUMENT_TEXT_DATA_CHECK:
                 return new TextDataCheckResponse($check);
+            case Constants::SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK:
+                return new SupplementaryDocumentTextDataCheckResponse($check);
             case Constants::LIVENESS:
                 return new LivenessCheckResponse($check);
             default:
