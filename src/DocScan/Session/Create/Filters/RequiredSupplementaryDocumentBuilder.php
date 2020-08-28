@@ -31,7 +31,6 @@ class RequiredSupplementaryDocumentBuilder
     public function withCountryCodes(array $countryCodes): self
     {
         Validation::notEmptyArray($countryCodes, 'countryCodes');
-        $this->countryCodes = $this->countryCodes ?? [];
         $this->countryCodes = $countryCodes;
         return $this;
     }
@@ -44,7 +43,6 @@ class RequiredSupplementaryDocumentBuilder
     public function withDocumentTypes(array $documentTypes): self
     {
         Validation::notEmptyArray($documentTypes, 'documentTypes');
-        $this->documentTypes = $this->documentTypes ?? [];
         $this->documentTypes = $documentTypes;
         return $this;
     }
